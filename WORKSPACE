@@ -302,19 +302,6 @@ http_archive(
     url = "FILE:///opt/mediapipe/opencv-3.4.3-android-sdk.zip"
 )
 
-#TODO:[CTOUCH]
-#android_sdk_repository(
-#    name = "androidsdk",
-#    path = "/opt/mediapipe/android-sdk-linux",
-#    api_level=33, 
-#    build_tools_version="33.0.2",
-#)
-
-#android_ndk_repository(
-#    name = "androidndk", 
-#    path = "/opt/mediapipe/android-ndk-r21e",
-#    api_level=21,
-#)
 
 # After OpenCV 3.2.0, the pre-compiled opencv2.framework has google protobuf symbols, which will
 # trigger duplicate symbol errors in the linking stage of building a mediapipe ios app.
