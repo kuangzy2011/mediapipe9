@@ -1,0 +1,77 @@
+#[CTOUCH]
+# MediaPipe graph that performs hands tracking on desktop with TensorFlow
+# Lite on CPU.
+# Used in the example in
+# mediapipe/examples/desktop/hand_tracking:hand_tracking_cpu.
+input_side_packet: "NUMBER_POINTS:number_points"
+
+# CPU image. (ImageFrame)
+input_stream: "input_image"
+
+# CPU image. (ImageFrame)
+output_stream: "output_image"
+output_stream: "WORLD_LANDMARKS:multi_hand_world_landmarks"
+output_stream: "LANDMARKS_PADDING:multi_hand_world_landmarks_padding"
+output_stream: "PRESENCE:landmark_presence"
+
+# Generates side packet cotaining max number of hands to detect/track.
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:num_hands"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet { int_value: 2 }
+    }
+  }
+}
+
+# Detects/tracks hand landmarks.
+node {
+  calculator: "HandLandmarkTrackingCpu"
+  input_stream: "IMAGE:input_image"
+  input_side_packet: "NUM_HANDS:num_hands"
+  output_stream: "LANDMARKS:landmarks"
+  output_stream: "HANDEDNESS:handedness"
+  output_stream: "PALM_DETECTIONS:multi_palm_detections"
+  output_stream: "HAND_ROIS_FROM_LANDMARKS:multi_hand_rects"
+  output_stream: "HAND_ROIS_FROM_PALM_DETECTIONS:multi_palm_rects"
+  output_stream: "WORLD_LANDMARKS:multi_hand_world_landmarks"
+}
+
+
+#[CTOUCH]
+node {
+  calculator: "LandmarksListPaddingCalculator"
+  input_side_packet: "NUMBER_POINTS:number_points"
+  input_stream: "LANDMARKS:multi_hand_world_landmarks"
+  output_stream: "LANDMARKS_PADDING:multi_hand_world_landmarks_padding"
+  output_stream: "NUMHANDS:number_hands"
+  options: {
+    [mediapipe.LandmarksListPaddingCalculatorOptions.ext] {
+      attributes: [ X, Y, Z ]
+      flatten: true
+      intensify: true
+      number_points: 2
+    }
+  }
+}
+
+# Subgraph that renders annotations and overlays them on top of the input
+# images (see hand_renderer_cpu.pbtxt).
+node {
+  calculator: "HandRendererSubgraph"
+  input_stream: "IMAGE:input_image"
+  input_stream: "DETECTIONS:multi_palm_detections"
+  input_stream: "LANDMARKS:landmarks"
+  input_stream: "HANDEDNESS:handedness"
+  input_stream: "NORM_RECTS:0:multi_palm_rects"
+  input_stream: "NORM_RECTS:1:multi_hand_rects"
+  output_stream: "IMAGE:output_image"
+}
+
+#[CTOUCH]
+node {
+  calculator: "PacketPresenceCalculator"
+  input_stream: "PACKET:landmarks"
+  output_stream: "PRESENCE:landmark_presence"
+}
