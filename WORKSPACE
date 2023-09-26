@@ -298,8 +298,7 @@ http_archive(
     strip_prefix = "OpenCV-android-sdk",
     type = "zip",
     #TODO:[CTOUCH]
-    #url = "https://github.com/opencv/opencv/releases/download/3.4.3/opencv-3.4.3-android-sdk.zip",
-    url = "FILE:///opt/mediapipe/opencv-3.4.3-android-sdk.zip"
+    url = "https://github.com/opencv/opencv/releases/download/3.4.3/opencv-3.4.3-android-sdk.zip",
 )
 
 
@@ -476,8 +475,7 @@ http_archive(
     name = "org_tensorflow",
     urls = [
       #TODO:[CTOUCH]
-      #"https://github.com/tensorflow/tensorflow/archive/%s.tar.gz" % _TENSORFLOW_GIT_COMMIT,
-      "FILE:///opt/mediapipe/tensorflow.tar.gz",
+      "https://github.com/tensorflow/tensorflow/archive/%s.tar.gz" % _TENSORFLOW_GIT_COMMIT,
     ],
     patches = [
         "@//third_party:org_tensorflow_compatibility_fixes.diff",
