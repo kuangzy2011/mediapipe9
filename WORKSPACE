@@ -261,14 +261,14 @@ new_local_repository(
     name = "linux_opencv",
     build_file = "@//third_party:opencv_linux.BUILD",
     #TODO:[CTOUCH]
-    path = "/usr/local",
+    path = "/usr",
 )
 
 new_local_repository(
     name = "linux_ffmpeg",
     build_file = "@//third_party:ffmpeg_linux.BUILD",
     #TODO:[CTOUCH]
-    path = "/usr/local"
+    path = "/usr"
 )
 
 new_local_repository(
@@ -303,18 +303,18 @@ http_archive(
 )
 
 #TODO:[CTOUCH]
-android_sdk_repository(
-    name = "androidsdk",
-    path = "/opt/mediapipe/android-sdk-linux",
-    api_level=33, 
-    build_tools_version="33.0.2",
-)
+#android_sdk_repository(
+#    name = "androidsdk",
+#    path = "/opt/mediapipe/android-sdk-linux",
+#    api_level=33, 
+#    build_tools_version="33.0.2",
+#)
 
-android_ndk_repository(
-    name = "androidndk", 
-    path = "/opt/mediapipe/android-ndk-r21e",
-    api_level=21,
-)
+#android_ndk_repository(
+#    name = "androidndk", 
+#    path = "/opt/mediapipe/android-ndk-r21e",
+#    api_level=21,
+#)
 
 # After OpenCV 3.2.0, the pre-compiled opencv2.framework has google protobuf symbols, which will
 # trigger duplicate symbol errors in the linking stage of building a mediapipe ios app.
