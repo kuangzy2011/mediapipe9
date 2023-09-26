@@ -93,6 +93,6 @@ fi
 
 echo "Set android_ndk_repository and android_sdk_repository in WORKSPACE"
 workspace_file="$( cd "$(dirname "$0")" ; pwd -P )"/WORKSPACE
-echo "android_sdk_repository(name = \"androidsdk\", path = \"${android_sdk_path}\")" >> $workspace_file
-echo "android_ndk_repository(name = \"androidndk\", api_level=21, path = \"${android_ndk_path}/android-ndk-${ndk_version}\")" >> $workspace_file
+grep androidsdk $workspace_file || echo "android_sdk_repository(name = \"androidsdk\", path = \"${android_sdk_path}\")" >> $workspace_file
+grep androidndk $workspace_file || echo "android_ndk_repository(name = \"androidndk\", api_level=21, path = \"${android_ndk_path}/android-ndk-${ndk_version}\")" >> $workspace_file
 echo "Done"
